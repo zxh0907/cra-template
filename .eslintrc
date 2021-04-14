@@ -1,0 +1,43 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2020,    // 允许解析现代ECMAScript功能 
+    "sourceType": "module", // 允许使用导入
+    "ecmaFeatures": {
+      "jsx": true      // 允许解析JSX  
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // 告诉eslint-plugin-react自动检测要使用的React版本
+    }
+  },
+  "plugins": [
+    "react",        // eslint-plugin-react
+    "react-hooks",  // eslint-plugin-react-hooks
+    "@typescript-eslint"
+    // "prettier"   // eslint-plugin-prettier
+  ],
+  "extends": [
+    "airbnb-typescript",
+    // "airbnb-typescript",
+    "airbnb/hooks",
+    // "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    // "prettier"   // 用于关闭 ESLint 相关的格式规则集，具体可查看 https://github.com/prettier/eslint-config-prettier/blob/master/index.js   
+    // "prettier/@typescript-eslint",   // 用于关闭 @typescript-eslint/eslint-plugin 插件相关的格式规则集，具体可查看 https://github.com/prettier/eslint-config-prettier/blob/master/%40typescript-eslint.js
+    "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.    
+  ],
+  "rules": {
+    "no-console": "warn",
+    "@typescript-eslint/indent": ["error", 2],
+    "no-var": "error", // 禁止使用 var
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],  // 优先使用 interface 而不是 type
+    "prettier/prettier": "error",
+    "import/no-extraneous-dependencies": ["error",  {"devDependencies": true}],
+    "react/jsx-props-no-spreading": "off",  // 关闭对元素属性用法 {...props} 的检测报错
+    "react/prop-types": 0    //防止在react组件定义中缺少props验证
+  }
+}
