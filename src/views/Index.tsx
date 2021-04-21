@@ -1,68 +1,34 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { NotesState } from '@/store/notesReducer'
+import { RootState, Dispatch } from '@/store'
 
-interface NewNoteInputProps {
-  addNote(note: string): void
-}
 // https://www.newline.co/@satansdeer/using-react-redux-with-typescript--6ea90757
-const Index: React.FC<NewNoteInputProps> = ({ addNote }) => {
-  const notes = useSelector<NotesState, NotesState['notes']>((state) => state.notes)
-  const [note, setNote] = useState('')
-  const dispatch = useDispatch()
-  const onAddNoteClick = () => {
-    dispatch({ type: 'ADD_NOTE', payload: note })
-    // addNote(note)
-    setNote('')
-  }
-
-  useEffect(() => {
-    function fetchSecretSauce() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve('noteddddddd')
-        }, 1000)
-      })
-      // return fetch('https://www.google.com/search?q=secret+sauce')
-    }
-  
-    function asnycGetNotes() {
-      // Invert control!
-      // Return a function that accepts `dispatch` so we can dispatch later.
-      // Thunk middleware knows how to turn thunk async actions into actions.
-      return function () {
-        return fetchSecretSauce().then((res) => ({
-          type: 'ADD_NOTE',
-          payload: res,
-        }))
-      }
-    }
-    console.log(asnycGetNotes())
-    // dispatch(asnycGetNotes())
-  }, [dispatch])
-  console.log(notes)
+const Index: React.FC = () => {
+  const count = useSelector((state: RootState) => state.count)
+  const dispatch = useDispatch<Dispatch>()
 
   return (
     <div>
       <h1>Index Page</h1>
-      <div>
-        <input
-          type="text"
-          name="note"
-          placeholder="Note"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setNote(e.target.value)
-          }}
-        />
-        <button type="button" onClick={onAddNoteClick}>
-          Add note
-        </button>
-        {note}
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ width: 120 }}>
+          <h3>Dolphins</h3>
+          <h1>{count}</h1>
+          <button type="button" onClick={() => dispatch.count.increment()}>
+            +1
+          </button>
+          <button type="button" onClick={() => dispatch.count.increment(3)}>
+            +3
+          </button>
+          <button type="button" onClick={() => dispatch.count.incrementAsync()}>
+            Async +1
+          </button>
+          <button type="button" onClick={() => dispatch({ type: 'count/incrementAsync', payload: 2 })}>
+            Async +2
+          </button>
+        </div>
+        <p>Using Rematch Models</p>
       </div>
-      <hr />
-      <ul>
-        <li>Some note</li>
-      </ul>
     </div>
   )
 }
